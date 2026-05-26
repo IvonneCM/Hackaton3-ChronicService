@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 const pg = require('pg'); 
 require('dotenv').config();
-
+console.log("👉 Mi DATABASE_URL es:", process.env.DATABASE_URL);
 // Detect SSL requirement (Neon/managed Postgres)
 const mustUseSSL =
   (process.env.DB_SSL && ['true', '1', 'yes'].includes(String(process.env.DB_SSL).toLowerCase())) ||
