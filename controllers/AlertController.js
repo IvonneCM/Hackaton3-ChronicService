@@ -21,7 +21,7 @@ const obtenerAlertasMedico = async (req, res) => {
       order: [
         // Críticas primero, luego por fecha
         ['severidad', 'ASC'],
-        ['createdAt', 'DESC'],
+        ['measured_at', 'DESC'],
       ],
       limit: limite,
       offset,
@@ -29,7 +29,7 @@ const obtenerAlertasMedico = async (req, res) => {
         {
           model: IotMetric,
           as: 'metrica',
-          attributes: ['tipo_metrica', 'valor', 'unidad', 'dispositivo', 'createdAt'],
+          attributes: ['tipo_metrica', 'valor', 'unidad', 'dispositivo', 'measured_at'],
         },
       ],
     });

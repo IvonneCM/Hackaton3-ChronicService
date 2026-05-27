@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
-const { IotMetric, Alert } = require('../models');
-
+// 👉 ¡OJO AQUÍ! Asegúrate de importar el modelo 'User' (o como se llame tu modelo de usuarios/pacientes)
+const { IotMetric, Alert } = require('../models'); 
+const { sequelize } = require('../database/config'); // <-- Asegúrate de que la ruta sea correcta
 // ─── Rangos normales por tipo de métrica ───────────────────────────────────────
 const METRIC_RANGES = {
   glucosa: { min: 70, max: 140, unit: 'mg/dL' },
@@ -60,7 +61,22 @@ const registrarMetrica = async (req, res) => {
       });
     }
 
-    // Registrar la métrica
+    // 👉 NUEVA VALIDACIÓN: Verificar si el paciente existe en la BD
+    const [results] = await sequelize.query(
+  `SELECT id FROM users WHERE id = :paciente_id LIMIT 1`,
+  {
+    replacements: { paciente_id },
+  }
+);
+
+if (results.length === 0) {
+  return res.status(404).json({
+    ok: false,
+    mensaje: `No se pudo registrar la métrica. El paciente con ID '${paciente_id}' no existe en la base de datos.`,
+  });
+}
+
+    // Registrar la métrica (ahora sabemos que el paciente existe)
     const metrica = await IotMetric.create({
       paciente_id,
       medico_id: medico_id || null,
@@ -120,14 +136,14 @@ const obtenerMetricasPaciente = async (req, res) => {
 
     if (tipo_metrica) where.tipo_metrica = tipo_metrica;
     if (desde || hasta) {
-      where.createdAt = {};
-      if (desde) where.createdAt[Op.gte] = new Date(desde);
-      if (hasta) where.createdAt[Op.lte] = new Date(hasta);
+      where.measured_at = {};
+      if (desde) where.measured_at[Op.gte] = new Date(desde);
+      if (hasta) where.measured_at[Op.lte] = new Date(hasta);
     }
 
     const { count, rows } = await IotMetric.findAndCountAll({
       where,
-      order: [['createdAt', 'DESC']],
+      order: [['measured_at', 'DESC']],
       limit: limite,
       offset,
     });

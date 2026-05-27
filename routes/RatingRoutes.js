@@ -74,14 +74,14 @@ const obtenerCalificacionesMedico = async (req, res) => {
 
     const where = { medico_id: doctorId };
     if (desde || hasta) {
-      where.createdAt = {};
-      if (desde) where.createdAt[Op.gte] = new Date(desde);
-      if (hasta) where.createdAt[Op.lte] = new Date(hasta);
+      where.measured_at = {};
+      if (desde) where.measured_at[Op.gte] = new Date(desde);
+      if (hasta) where.measured_at[Op.lte] = new Date(hasta);
     }
 
     const { count, rows } = await Rating.findAndCountAll({
       where,
-      order: [['createdAt', 'DESC']],
+      order: [['measured_at', 'DESC']],
       limit: limite,
       offset,
     });

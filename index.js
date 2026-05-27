@@ -10,7 +10,7 @@ const iniciar = async () => {
     console.log('✅ Conexión a base de datos establecida');
 
     // sync({ alter: true }) en desarrollo para aplicar cambios al schema
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ alter: true }); // o simplemente sync()
     console.log('✅ Modelos sincronizados');
 
     app.listen(PORT, () => {

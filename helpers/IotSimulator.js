@@ -11,13 +11,19 @@
 
 require('dotenv').config({ path: '../.env' });
 
-const BASE_URL = process.env.SIMULATOR_URL || 'http://localhost:3005';
+const BASE_URL = process.env.SIMULATOR_URL || 'http://localhost:4003';
 const TOKEN    = process.env.SIMULATOR_TOKEN || 'TU_JWT_TOKEN_AQUI';
 const INTERVAL_MS = parseInt(process.env.SIMULATOR_INTERVAL) || 4000; // 4 segundos
 
 // ─── Pacientes crónicos de prueba ─────────────────────────────────────────────
 const PACIENTES = [
-  { paciente_id: 1, medico_id: 10, nombre: 'Carlos Mendoza (diabético)',     condicion: 'diabetes' },
+    { 
+    paciente_id: 'f7a3303c-b677-456a-bc05-288368590cf0', // 👉 ¡Con comillas!
+    medico_id: 'ae777763-c67b-462a-933b-6c4ffdfa63d8',   // 👉 ¡Con comillas!
+    nombre: 'Carlos Mendoza (diabético)',     
+    condicion: 'diabetes' 
+  },
+    { paciente_id: 1, medico_id: 10, nombre: 'Carlos Mendoza (diabético)',     condicion: 'diabetes' },
   { paciente_id: 2, medico_id: 10, nombre: 'Ana Torres (hipertensa)',         condicion: 'hipertension' },
   { paciente_id: 3, medico_id: 11, nombre: 'Luis Quispe (EPOC)',              condicion: 'epoc' },
   { paciente_id: 4, medico_id: 11, nombre: 'Marta Solis (arritmia)',          condicion: 'arritmia' },

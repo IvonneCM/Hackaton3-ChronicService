@@ -32,11 +32,12 @@ const IotMetric = sequelize.define('IotMetric', {
   tipo_metrica: { type: DataTypes.STRING(50), allowNull: false, field: 'metric_type' },
   valor: { type: DataTypes.DECIMAL(10, 2), allowNull: false, field: 'metric_value' },
   unidad: { type: DataTypes.STRING(30), field: 'unit' },
+  dispositivo: { type: DataTypes.STRING(50) },
   // measured_at en tu BD
   measured_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 }, { 
   tableName: 'iot_metrics', 
-  timestamps: false // Apagamos createdAt/updatedAt por defecto
+  timestamps: false // Apagamos measured_at/updatedAt por defecto
 });
 
 // ─── Modelo: Alert ────────────────────────────────────────────────────────────
@@ -48,7 +49,7 @@ const Alert = sequelize.define('Alert', {
   severidad: { type: DataTypes.STRING(20), defaultValue: 'media', field: 'severity' },
   mensaje: { type: DataTypes.TEXT, allowNull: false, field: 'message' },
   estado: { type: DataTypes.STRING(30), defaultValue: 'pendiente', field: 'status' },
-  createdAt: { type: DataTypes.DATE, field: 'created_at', defaultValue: DataTypes.NOW }
+  measured_at: { type: DataTypes.DATE, field: 'created_at', defaultValue: DataTypes.NOW }
 }, { 
   tableName: 'alerts', 
   timestamps: false 
@@ -62,7 +63,7 @@ const Rating = sequelize.define('Rating', {
   cita_id: { type: DataTypes.UUID, field: 'appointment_id' },
   puntaje: { type: DataTypes.INTEGER, allowNull: false, field: 'rating' },
   comentario: { type: DataTypes.TEXT, field: 'comment' },
-  createdAt: { type: DataTypes.DATE, field: 'created_at', defaultValue: DataTypes.NOW }
+  measured_at: { type: DataTypes.DATE, field: 'created_at', defaultValue: DataTypes.NOW }
 }, { 
   tableName: 'ratings', 
   timestamps: false 
